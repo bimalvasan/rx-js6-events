@@ -4,10 +4,21 @@ import { Observable } from "rxjs";
 let numbers = [1, 3, 7, 10];
 
 let source = Observable.create(observer => {
-    for (let n of numbers) {
-        observer.next(n);
+    let index = 0;
+    let produceValue = () => {
+        observer.next(numbers[index++]);
+
+        if (index < numbers.length) {
+            setTimeout(produceValue, 2000);
+        } else {
+            observer.complete();
+        }
     }
-    observer.complete();
+    produceValue();
+    // for (let n of numbers) {
+    //     observer.next(n);
+    // }
+    // observer.complete();
 }); //from(numbers);
 
 source.subscribe(
