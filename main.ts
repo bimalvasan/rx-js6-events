@@ -1,5 +1,5 @@
-import { from } from "rxjs";
 import { Observable } from "rxjs";
+import { filter, map } from 'rxjs/operators';
 
 let numbers = [1, 3, 7, 10];
 
@@ -15,11 +15,7 @@ let source = Observable.create(observer => {
         }
     }
     produceValue();
-    // for (let n of numbers) {
-    //     observer.next(n);
-    // }
-    // observer.complete();
-}); //from(numbers);
+}).pipe(map(n => n * 2), filter(n => n > 4));
 
 source.subscribe(
     value => console.log(`Value: ${value}`), //Next
